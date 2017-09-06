@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             pp_acc_id = "0213" + acc_id;
             l("ID_CARD", pp_acc_id );
         }
-        else if((acc_id.length() == 10) && (acc_id.startsWith("08"))){ // tel-no
+        else if(acc_id.matches("^(08|09)\\d{8}$")){ // tel-no
             pp_acc_id = "01130066" + acc_id.substring(1);
             l("TEL_NO", pp_acc_id );
         }
