@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/promptpay-qr.iml" filepath="$PROJECT_DIR$/promptpay-qr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/promptpay-qr-plus.iml" filepath="$PROJECT_DIR$/promptpay-qr-plus.iml" />
     </modules>
   </component>
 </project>

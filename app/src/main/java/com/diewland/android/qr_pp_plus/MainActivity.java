@@ -10,7 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,7 +22,9 @@ import android.widget.TextView;
 import net.glxn.qrgen.android.QRCode;
 import net.glxn.qrgen.core.image.ImageType;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,14 +88,31 @@ public class MainActivity extends AppCompatActivity {
         share_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/png");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                qrBMP.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-                String path = MediaStore.Images.Media.insertImage(getContentResolver(), qrBMP, "Title", null);
-                Uri imageUri =  Uri.parse(path);
-                share.putExtra(Intent.EXTRA_STREAM, imageUri);
-                startActivity(Intent.createChooser(share, "Select"));
+                // use file provider for share bitmap W/O additional permissions
+                // https://stackoverflow.com/a/30172792/466693
+                File cachePath = new File(getCacheDir(), "images");
+
+                // save bitmap to cache directory
+                try {
+                    cachePath.mkdirs(); // don't forget to make the directory
+                    FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
+                    qrBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // share intent
+                File newFile = new File(cachePath, "image.png");
+                Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "com.diewland.android.qr_pp_plus.fileprovider", newFile);
+                if (contentUri != null) {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+                    shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                    startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+                }
             }
         });
     }
