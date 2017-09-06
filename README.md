@@ -1,6 +1,6 @@
-# Secure Promptpay QR
+# Promptpay QR+
 
-<a href='https://play.google.com/store/apps/details?id=com.diewland.android.qr_pp' title='Download at Google Play'><img width='300' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'></a>
+<a href='https://play.google.com/store/apps/details?id=com.diewland.android.qr_pp_plus' title='Download at Google Play'><img width='300' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'></a>
 
 ### References
 * https://www.blognone.com/node/95133
