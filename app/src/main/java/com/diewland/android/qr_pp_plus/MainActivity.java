@@ -2,6 +2,7 @@ package com.diewland.android.qr_pp_plus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,6 +31,11 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences sharedPref;
+    private String STATE_ACC_ID = "STATE_ACC_ID";
+    private String STATE_AMOUNT = "STATE_AMOUNT";
+    private String STATE_REMARK = "STATE_REMARK";
+
     private TextView tv_acc_id;
     private TextView tv_amount;
     private TextView tv_remark;
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // get app objects
         tv_acc_id = (TextView)findViewById(R.id.account_id);
         tv_amount = (TextView)findViewById(R.id.amount);
         tv_remark = (TextView)findViewById(R.id.remark);
@@ -85,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // bind share button
         Button share_btn = (Button)findViewById(R.id.share);
         share_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +126,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // restore input states
+        sharedPref = getSharedPreferences("SAVE_STATE", MODE_PRIVATE);
+        String prev_acc_id = sharedPref.getString(STATE_ACC_ID, "");
+        String prev_amount = sharedPref.getString(STATE_AMOUNT, "");
+        String prev_remark = sharedPref.getString(STATE_REMARK, "");
+        if(!prev_acc_id.isEmpty()) tv_acc_id.setText(prev_acc_id);
+        if(!prev_amount.isEmpty()) tv_amount.setText(prev_amount);
+        if(!prev_remark.isEmpty()) tv_remark.setText(prev_remark);
     }
 
+    // render QR image
     private void renderQR(){
         String pp_acc_id = "";
         String pp_amount = "";
@@ -128,11 +147,9 @@ public class MainActivity extends AppCompatActivity {
         String acc_id = tv_acc_id.getText().toString();
         if(acc_id.length() == 13){ // card-id
             pp_acc_id = "0213" + acc_id;
-            l("ID_CARD", pp_acc_id );
         }
         else if(acc_id.length() == 10){ // tel-no
             pp_acc_id = "01130066" + acc_id.substring(1);
-            l("TEL_NO", pp_acc_id );
         }
         else { // invalid acc_id
             img_qr.setImageDrawable(null);
@@ -144,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
         String amount = tv_amount.getText().toString();
         if(!amount.isEmpty()){
             pp_amount = String.format("54%02d%s", amount.length(), amount);
-            l("AMOUNT", pp_amount );
         }
 
         // build pp string
@@ -158,9 +174,6 @@ public class MainActivity extends AppCompatActivity {
         // process checksum
         pp_chksum = CRC16.checksum(pp_str);
         pp_str += pp_chksum;
-
-        l("CHECKSUM", pp_chksum);
-        l("PP_STR", pp_str);
 
         // render qr bitmap
         qrBMP = QRCode.from(pp_str)
@@ -179,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         btn_share.setVisibility(View.VISIBLE);
     }
 
+    // draw text on bitmap
     // https://www.skoumal.net/en/android-how-draw-text-bitmap/
     public Bitmap drawTextToBitmap(Context gContext, Bitmap bitmap, String gText) {
         Resources resources = gContext.getResources();
@@ -214,7 +228,16 @@ public class MainActivity extends AppCompatActivity {
         return bitmap;
     }
 
-    private void l(String type, String msg){
-        // Log.d("DIEWLAND", "<"+ type +"> "+ msg);
+    // save input state when pause
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // save input states
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(STATE_ACC_ID, tv_acc_id.getText().toString());
+        editor.putString(STATE_AMOUNT, tv_amount.getText().toString());
+        editor.putString(STATE_REMARK, tv_remark.getText().toString());
+        editor.commit();
     }
 }
