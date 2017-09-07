@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="เลขบัตรปชช หรือ เบอร์โทรศัพท์"
+            android:hint="เบอร์โทรศัพท์ หรือ เลขบัตรปชช"
             android:inputType="number" />
 
         <EditText
