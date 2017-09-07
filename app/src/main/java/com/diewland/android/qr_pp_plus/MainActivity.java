@@ -25,6 +25,7 @@ import net.glxn.qrgen.core.image.ImageType;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
                 // use file provider for share bitmap W/O additional permissions
                 // https://stackoverflow.com/a/30172792/466693
                 File cachePath = new File(getCacheDir(), "images");
+                String random_name = "pp-" + UUID.randomUUID() + ".png";
 
                 // save bitmap to cache directory
                 try {
                     cachePath.mkdirs(); // don't forget to make the directory
-                    FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
+                    FileOutputStream stream = new FileOutputStream(cachePath + "/" + random_name); // overwrites this image every time
                     qrBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     stream.close();
                 } catch (IOException e) {
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // share intent
-                File newFile = new File(cachePath, "image.png");
+                File newFile = new File(cachePath, random_name);
                 Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "com.diewland.android.qr_pp_plus.fileprovider", newFile);
                 if (contentUri != null) {
                     Intent shareIntent = new Intent();
