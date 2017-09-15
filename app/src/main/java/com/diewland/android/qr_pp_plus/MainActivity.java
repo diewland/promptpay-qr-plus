@@ -145,7 +145,10 @@ public class MainActivity extends AppCompatActivity {
 
         // process acc_id
         String acc_id = tv_acc_id.getText().toString();
-        if(acc_id.length() == 13){ // card-id
+        if(acc_id.length() == 15){ // truemoney e-wallet
+            pp_acc_id = "0315" + acc_id;
+        }
+        else if(acc_id.length() == 13){ // card-id
             pp_acc_id = "0213" + acc_id;
         }
         else if(acc_id.length() == 10){ // tel-no
