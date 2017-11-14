@@ -167,8 +167,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // build pp string
-        String pp_str = "00020101021129370016A000000677010111"
-                      + pp_acc_id
+        String field_29 = "0016A000000677010111" + pp_acc_id;
+        String pp_str = "000201010211"
+                      + "29" + field_29.length() + field_29
                       + "5303764"
                       + pp_amount
                       + "5802TH"
