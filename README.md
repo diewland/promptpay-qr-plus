@@ -9,3 +9,4 @@
 * https://github.com/dtinth/promptpay-qr
 * http://introcs.cs.princeton.edu/java/61data/CRC16CCITT.java
 * http://www.truemoney.com/promptpay-aom/
+* https://www.blognone.com/node/97186
