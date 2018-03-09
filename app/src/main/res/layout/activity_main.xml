@@ -22,13 +22,28 @@
             android:hint="เบอร์โทรศัพท์, เลขบัตรปชช หรือ e-Wallet ID"
             android:inputType="number" />
 
-        <EditText
-            android:id="@+id/amount"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="จำนวนเงิน (ไม่ระบุก็ได้)"
-            android:inputType="numberDecimal" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="จำนวนเงิน (ไม่ระบุก็ได้)"
+                android:inputType="numberDecimal" />
+
+            <ImageButton
+                android:id="@+id/calc"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="fitStart"
+                app:srcCompat="@drawable/calc" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/remark"

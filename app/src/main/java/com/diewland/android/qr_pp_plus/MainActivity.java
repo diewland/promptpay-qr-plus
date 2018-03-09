@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,14 +33,17 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPref;
-    private String STATE_ACC_ID = "STATE_ACC_ID";
-    private String STATE_AMOUNT = "STATE_AMOUNT";
-    private String STATE_REMARK = "STATE_REMARK";
+
+    private static final String STATE_ACC_ID = "STATE_ACC_ID";
+    private static final String STATE_AMOUNT = "STATE_AMOUNT";
+    private static final String STATE_REMARK = "STATE_REMARK";
+    private static final int PICK_AMOUNT = 2;
 
     private TextView tv_acc_id;
     private TextView tv_amount;
     private TextView tv_remark;
     private Button btn_share;
+    private ImageButton btn_calc;
     private ImageView img_qr;
     private Bitmap qrBMP;
 
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         tv_amount = (TextView)findViewById(R.id.amount);
         tv_remark = (TextView)findViewById(R.id.remark);
         btn_share = (Button)findViewById(R.id.share);
+        btn_calc  = (ImageButton)findViewById(R.id.calc);
         img_qr    = (ImageView) findViewById(R.id.qr);
 
         // render qr-code on text-changed
@@ -90,6 +95,16 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        // bind calc
+        btn_calc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CalcActivity.class);
+                intent.putExtra("AMOUNT", tv_amount.getText().toString());
+                startActivityForResult(intent, PICK_AMOUNT);
             }
         });
 
@@ -243,5 +258,18 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(STATE_AMOUNT, tv_amount.getText().toString());
         editor.putString(STATE_REMARK, tv_remark.getText().toString());
         editor.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // get calculated amount from calculator
+        if((resultCode == RESULT_OK) && (requestCode == PICK_AMOUNT)){
+            if(data != null){
+                String amt = data.getStringExtra("AMOUNT");
+                tv_amount.setText(amt);
+            }
+        }
     }
 }
