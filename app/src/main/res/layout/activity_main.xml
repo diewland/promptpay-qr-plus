@@ -1,68 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.diewland.android.qr_pp_plus.MainActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/AppToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/app_name" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp">
 
-        <EditText
-            android:id="@+id/account_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="เบอร์โทรศัพท์, เลขบัตรปชช หรือ e-Wallet ID"
-            android:inputType="number" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account_id_layout"
+            style="@style/InputField"
+            android:hint="@string/hint_account"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:helperText="@string/helper_account"
+            app:helperTextEnabled="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/account_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="15" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amount_layout"
+            style="@style/InputField"
+            android:hint="@string/hint_amount"
+            app:endIconContentDescription="@string/open_calculator"
+            app:endIconDrawable="@drawable/ic_calculate"
+            app:endIconMode="custom"
+            app:suffixText="@string/currency_baht">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="จำนวนเงิน (ไม่ระบุก็ได้)"
+                android:imeOptions="actionNext"
                 android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/calc"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="fitStart"
-                app:srcCompat="@drawable/calc" />
-        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/InputField"
+            android:hint="@string/hint_remark">
 
-        <EditText
-            android:id="@+id/remark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="เตือนความจำ (ไม่ระบุก็ได้)" />
-
-        <Button
-            android:id="@+id/share"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ส่งให้เพื่อน"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/qr"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- QR fills the remaining space as the largest square that fits -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="4dp">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_max="480dp">
+
+            <ImageView
+                android:id="@+id/qr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/qr_content_description"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/qr_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.3"
+                android:padding="24dp"
+                android:text="@string/qr_placeholder"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/share"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:enabled="false"
+        android:text="@string/share"
+        android:textSize="18sp"
+        app:icon="@drawable/ic_share"
+        app:iconGravity="textStart" />
+
+</LinearLayout>

@@ -22,7 +22,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.diewland.android.qr_pp_plus.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <!-- AndroidX FileProvider still reads this legacy meta-data key -->
@@ -33,7 +33,7 @@
 
         <activity
             android:name=".CalcActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:exported="false"
             android:label="@string/title_activity_calc"
             android:theme="@style/AppTheme.NoActionBar"></activity>

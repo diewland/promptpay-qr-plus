@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">PromptPay QR+</string>
     <string name="title_activity_calc">Calculator</string>
+
+    <string name="hint_account">พร้อมเพย์</string>
+    <string name="helper_account">เบอร์โทรศัพท์, เลขบัตรประชาชน หรือ e-Wallet ID</string>
+    <string name="account_type_phone">เบอร์โทรศัพท์</string>
+    <string name="account_type_card">เลขบัตรประชาชน</string>
+    <string name="account_type_ewallet">e-Wallet ID</string>
+    <string name="hint_amount">จำนวนเงิน (ไม่ระบุก็ได้)</string>
+    <string name="hint_remark">เตือนความจำ (ไม่ระบุก็ได้)</string>
+    <string name="currency_baht">บาท</string>
+    <string name="open_calculator">เครื่องคิดเลข</string>
+    <string name="qr_placeholder">เบอร์โทรศัพท์ 10 หลัก\nเลขบัตรประชาชน 13 หลัก\ne-Wallet ID 15 หลัก</string>
+    <string name="share">ส่งให้เพื่อน</string>
+    <string name="qr_content_description">PromptPay QR code</string>
 </resources>

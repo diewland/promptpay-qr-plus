@@ -1,6 +1,5 @@
 package com.diewland.android.qr_pp_plus;
 
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -13,6 +12,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.color.MaterialColors;
 
 /**
  * Targeting API 35+ forces edge-to-edge drawing and the system no longer paints
@@ -35,8 +36,8 @@ final class EdgeToEdgeHelper {
                 new ColorDrawable(ContextCompat.getColor(activity, R.color.colorPrimaryDark)));
 
         ViewGroup content = activity.findViewById(android.R.id.content);
-        final View root = content.getChildAt(0);
-        root.setBackgroundColor(themeBackgroundColor(activity));
+        View root = content.getChildAt(0);
+        root.setBackgroundColor(MaterialColors.getColor(activity, android.R.attr.colorBackground, Color.WHITE));
 
         ViewCompat.setOnApplyWindowInsetsListener(root, (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -50,12 +51,4 @@ final class EdgeToEdgeHelper {
         });
     }
 
-    private static int themeBackgroundColor(AppCompatActivity activity) {
-        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.colorBackground});
-        try {
-            return a.getColor(0, Color.WHITE);
-        } finally {
-            a.recycle();
-        }
-    }
 }

@@ -5,40 +5,29 @@ import java.util.List;
 
 public class Calc {
 
-    private static List<String> math_ops = Arrays.asList(
-         "+",
-        "-",
-        "x",
-        "÷"
-    );
+    private static final List<String> MATH_OPS = Arrays.asList("+", "-", "x", "÷");
 
     public static boolean is_math_ops(String v){
-        return math_ops.contains(v);
+        return MATH_OPS.contains(v);
     }
 
-    public static String ops(Double a, Double b, String ops){
-        Double result = null;
-        if(ops.equals("+")){
-            result = a + b;
+    public static String ops(double a, double b, String ops){
+        double result;
+        switch (ops) {
+            case "+": result = a + b; break;
+            case "-": result = a - b; break;
+            case "x": result = a * b; break;
+            case "÷": result = a / b; break;
+            default: throw new IllegalArgumentException("unknown operator: " + ops);
         }
-        else if(ops.equals("-")){
-            result = a - b;
+        // return integer, 1-digit or 2-digit decimal string
+        if(result == (int) result){
+            return String.valueOf((int) result);
         }
-        else if(ops.equals("x")){
-            result = a * b;
+        String oneDigit = String.format("%.1f", result);
+        if(result == Double.parseDouble(oneDigit)){
+            return oneDigit;
         }
-        else if(ops.equals("÷")){
-            result = a / b;
-        }
-        // return 1 or 2 digit float or numeric
-        if(result == result.intValue()){
-            return String.valueOf(result.intValue());
-        }
-        else if(result == Double.parseDouble(String.format("%.1f", result))){
-            return String.format("%.1f", result);
-        }
-        else {
-            return String.format("%.2f", result);
-        }
+        return String.format("%.2f", result);
     }
 }
