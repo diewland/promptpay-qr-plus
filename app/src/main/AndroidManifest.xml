@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diewland.android.qr_pp_plus">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -11,7 +10,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,10 +21,11 @@
         </activity>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.diewland.android.qr_pp_plus.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+            <!-- AndroidX FileProvider still reads this legacy meta-data key -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
@@ -31,6 +33,8 @@
 
         <activity
             android:name=".CalcActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"
             android:label="@string/title_activity_calc"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
